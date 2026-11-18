@@ -20,13 +20,57 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Generate light and dark animations
-        uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
-        with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-snake.svg?palette=github-light&color_snake=#0e7490
-            dist/github-snake-dark.svg?palette=github-dark&color_snake=#67e8f9
+      - name: Install the snake generator
+        run: npm install --no-save --no-package-lock --ignore-scripts --omit=optional generate-snake-animation@3.5.0
+
+      - name: Generate light and dark animations for 2026
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_USER: ${{ github.repository_owner }}
+        run: |
+          cat > "$RUNNER_TEMP/snake-calendar.mjs" <<'JS'
+          const from = "2026-01-01T00:00:00Z";
+          const lastDay = "2026-12-31";
+          const today = new Date().toISOString().slice(0, 10);
+          const to = `${today < lastDay ? today : lastDay}T23:59:59Z`;
+          const fetchOriginal = globalThis.fetch;
+
+          // The generator queries a rolling year by default. Add GraphQL date arguments.
+          globalThis.fetch = async (url, options) => {
+            if (url !== "https://api.github.com/graphql") {
+              return fetchOriginal(url, options);
+            }
+
+            const request = JSON.parse(options.body);
+            const field = "contributionsCollection {";
+            if (!request.query.includes(field)) {
+              throw new Error("The snake generator's contributions query changed");
+            }
+            request.query = request.query.replace(
+              field,
+              `contributionsCollection(from: "${from}", to: "${to}") {`,
+            );
+            const response = await fetchOriginal(url, {
+              ...options,
+              body: JSON.stringify(request),
+            });
+            if (!response.ok) return response;
+
+            const { data, errors } = await response.clone().json();
+            if (errors?.length) return response;
+            const dates = data.user.contributionsCollection.contributionCalendar.weeks
+              .flatMap(({ contributionDays }) => contributionDays.map(({ date }) => date));
+            if (dates[0] !== from.slice(0, 10) || dates.some((date) => date < dates[0] || date > to.slice(0, 10))) {
+              throw new Error("GitHub returned contribution dates outside the requested 2026 range");
+            }
+            console.log(`Rendering ${dates.length} days from ${dates[0]} through ${dates.at(-1)}`);
+            return response;
+          };
+          JS
+          node --import "$RUNNER_TEMP/snake-calendar.mjs" node_modules/generate-snake-animation/cli.js \
+            --github_user="$GITHUB_USER" \
+            --output='dist/github-snake-2026.svg?palette=github-light&color_snake=#0e7490' \
+            --output='dist/github-snake-2026-dark.svg?palette=github-dark&color_snake=#67e8f9'
 
       - name: Publish animations to the output branch
         uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
