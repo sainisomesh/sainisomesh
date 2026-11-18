@@ -38,6 +38,6 @@ I build machine learning systems to make healthcare more accessible. At **Clevel
 ## Contribution activity
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sainisomesh/sainisomesh/output/github-snake-dark.svg">
-  <img alt="Animated snake eating squares from Somesh Saini's GitHub contribution grid" src="https://raw.githubusercontent.com/sainisomesh/sainisomesh/output/github-snake.svg" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake-dark.svg">
+  <img alt="Animated snake eating squares from Somesh Saini's GitHub contribution grid" src="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake.svg" width="100%">
 </picture>
