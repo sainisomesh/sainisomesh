@@ -1,7 +1,7 @@
 <h1 align="center">Somesh Saini</h1>
 <p align="center"><strong>Computer Science × Biomedical AI × Healthcare Innovation</strong></p>
 <p align="center">
-  B.S. Computer Science + M.S. Biomedical &amp; Health Informatics<br>
+  B.A. Computer Science + M.S. Biomedical &amp; Health Informatics<br>
   Case Western Reserve University
 </p>
 <p align="center">
