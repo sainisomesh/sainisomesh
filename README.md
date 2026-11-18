@@ -35,9 +35,9 @@ I build machine learning systems to make healthcare more accessible. At **Clevel
 | **Python · LLM APIs** | Build structured extraction, validate source evidence, and implement deterministic decision rules with traceable outputs. |
 | **TypeScript · React · Next.js · GitHub Actions** | Build and publish web interfaces, including my portfolio, through a Git-based workflow. |
 
-## Contribution activity
+## 2026 contribution activity
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake-dark.svg">
-  <img alt="Animated snake eating squares from Somesh Saini's GitHub contribution grid" src="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake.svg" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake-2026-dark.svg">
+  <img alt="Animated snake eating squares from Somesh Saini's 2026 GitHub contribution grid" src="https://raw.githubusercontent.com/sainisomesh/sainisomesh/refs/heads/output/github-snake-2026.svg" width="100%">
 </picture>
