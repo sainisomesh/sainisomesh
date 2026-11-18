@@ -1,0 +1,37 @@
+name: Contribution snake
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/contribution-snake.yml
+  schedule:
+    - cron: '27 5 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: contribution-snake
+
+jobs:
+  generate:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Generate light and dark animations
+        uses: Platane/snk/svg-only@d8f6715049803e982ee5ff501b6b9b7d5deeb09b # v3.5.0
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-snake.svg?palette=github-light&color_snake=#0e7490
+            dist/github-snake-dark.svg?palette=github-dark&color_snake=#67e8f9
+
+      - name: Publish animations to the output branch
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e # v4.0.0
+        with:
+          github_token: ${{ github.token }}
+          publish_branch: output
+          publish_dir: dist
+          keep_files: true
